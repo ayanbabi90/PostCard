@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Post Card</string>
+    <string name="account_setting">Account settings</string>
+    <string name="logount_main">Logout</string>
+    <string name="wellcome">Wellcome To</string>
+    <string name="email_hint">Email</string>
+    <string name="emailHint">Email</string>
+    <string name="passHint">password</string>
+    <string name="loginButton">Login</string>
+    <string name="registerLogin">Register</string>
+    <string name="rgst_hint">Type your email</string>
+    <string name="rgr_passHint">password should be six digit minimum</string>
+    <string name="regLogin">Already have an account</string>
+    <string name="namehintText">Enter your name</string>
+    <string name="buttonSaveSettings">Save account settings</string>
+    <string name="deletProfile">Delete profile</string>
+</resources>
