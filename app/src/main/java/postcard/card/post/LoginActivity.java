@@ -23,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
    private EditText emailET, passET;
     private Button loginBT,registerBT;
     private FirebaseAuth mAuth;
-
     ProgressBar pB;
 
     @Override
@@ -43,10 +42,11 @@ public class LoginActivity extends AppCompatActivity {
                 String passwd = passET.getText().toString();
 
                 if (!TextUtils.isEmpty(emailID) && !TextUtils.isEmpty(passwd)){
-                    pB.setVisibility(View.VISIBLE);
+
                     mAuth.signInWithEmailAndPassword(emailID,passwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            pB.setVisibility(View.VISIBLE);
                             if (task.isSuccessful()){
                                 sendToMainActivity();
                             }else {
