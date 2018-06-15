@@ -14,4 +14,6 @@
     <string name="namehintText">Enter your name</string>
     <string name="buttonSaveSettings">Save account settings</string>
     <string name="deletProfile">Delete profile</string>
+    <string name="nameSetup">name</string>
+    <string name="post">post</string>
 </resources>

@@ -58,13 +58,15 @@ public class SetupActivity extends AppCompatActivity {
 
     private boolean isChanged = false;
 
-    private EditText setupName;
+    private EditText setupName, setupPasswd;
     private Button setupBtn;
     private ProgressBar setupProgress;
 
     private StorageReference storageReference;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
+    private Button setupDeletBtn;
+
 
     private Bitmap compressedImageFile;
 
@@ -80,17 +82,43 @@ public class SetupActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         user_id = firebaseAuth.getCurrentUser().getUid();
 
+
         firebaseFirestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
+        final FirebaseUser cuUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        setupImage = findViewById(R.id.setup_image);
-        setupName = findViewById(R.id.setup_name);
-        setupBtn = findViewById(R.id.setup_btn);
-        setupProgress = findViewById(R.id.setup_progress);
+        buttonMethod();
+
 
         setupProgress.setVisibility(View.VISIBLE);
         setupBtn.setEnabled(false);
+
+
+
+        setupDeletBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cuUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(SetupActivity.this,"Profile Deleted",Toast.LENGTH_LONG).show();
+                            try {
+
+                                Thread.sleep(1000);
+                                loginActivityMain();
+
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+
+                        }
+                    }
+                });
+            }
+        });
 
         firebaseFirestore.collection("Users").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -220,6 +248,21 @@ public class SetupActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void loginActivityMain() {
+        Intent send = new Intent(SetupActivity.this, LoginActivity.class);
+        startActivity(send);
+        finish();
+    }
+
+    private void buttonMethod() {
+        setupPasswd = findViewById(R.id.setup_passwd);
+        setupDeletBtn = findViewById(R.id.setup_btDelet);
+        setupImage = findViewById(R.id.setup_image);
+        setupName = findViewById(R.id.setup_name);
+        setupBtn = findViewById(R.id.setup_btn);
+        setupProgress = findViewById(R.id.setup_progress);
     }
 
     private void storeFirestore(@NonNull Task<UploadTask.TaskSnapshot> task, String user_name) {

@@ -6,26 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".SetupActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/setupToolbar"
+
+
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/linearSetup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.Toolbar>
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/setupToolbar"
+            layout="@layout/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v7.widget.LinearLayoutCompat>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/setup_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="136dp"
+        android:layout_height="147dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:src="@mipmap/setup_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setupToolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/linearSetup" />
 
     <EditText
         android:id="@+id/setup_name"
@@ -33,32 +40,33 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
         android:ems="10"
-        android:hint="@string/emailHint"
+        android:hint="@string/nameSetup"
         android:inputType="textPersonName"
         android:padding="15dp"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setup_image" />
 
-    <Button
-        android:id="@+id/setup_btn"
+    <EditText
+        android:id="@+id/setup_passwd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/colorAccent"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:hint="@string/passHint"
+        android:inputType="textPassword|textVisiblePassword"
         android:padding="15dp"
-        android:text="@string/account_setting"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setup_name" />
+        app:layout_constraintTop_toBottomOf="@+id/setup_image" />
+
 
     <ProgressBar
         android:id="@+id/setup_progress"
@@ -68,7 +76,55 @@
         android:indeterminate="true"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setupToolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/linearSetup" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <Button
+            android:id="@+id/setup_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/holo_green_light"
+            android:padding="15dp"
+            android:text="@string/account_setting"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="358dp" />
+
+
+        <Button
+            android:id="@+id/setup_btDelet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:padding="15dp"
+            android:text="@string/deletProfile"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="59dp"
+            tools:layout_editor_absoluteY="358dp" />
+    </LinearLayout>
+
+
+
 
 </android.support.constraint.ConstraintLayout>

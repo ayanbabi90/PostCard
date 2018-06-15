@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <item
         android:id="@+id/action_search"
         android:icon="@mipmap/action_search"
         android:title="Search"
         app:showAsAction="always"
         tools:visible="true" />
+
     <item
         android:id="@+id/accountSettings"
         android:title="@string/account_setting" />

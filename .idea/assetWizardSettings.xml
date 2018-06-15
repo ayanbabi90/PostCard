@@ -23,8 +23,8 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="color" value="fcfffa" />
-                                                <entry key="paddingPercent" value="-5" />
+                                                <entry key="color" value="838891" />
+                                                <entry key="paddingPercent" value="-10" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -35,7 +35,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_account_circle_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_image_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -45,10 +45,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundColor" value="414347" />
-                                      <entry key="cropped" value="true" />
-                                      <entry key="iconShape" value="CIRCLE" />
-                                      <entry key="outputName" value="setup_user2" />
+                                      <entry key="backgroundColor" value="fcfffa" />
+                                      <entry key="outputName" value="post_image" />
                                     </map>
                                   </option>
                                 </PersistentState>
