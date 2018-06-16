@@ -1,6 +1,7 @@
 package postcard.card.post;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,10 +28,14 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
+import id.zelory.compressor.Compressor;
 
 public class NewPostActivity extends AppCompatActivity {
 
@@ -41,6 +48,7 @@ public class NewPostActivity extends AppCompatActivity {
     StorageReference storageReference;
     String user_ID;
     private Uri postImageUri = null;
+   private Bitmap compressedImageFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,7 @@ public class NewPostActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+
 
         user_ID = mAuth.getCurrentUser().getUid();
 
@@ -76,7 +85,8 @@ public class NewPostActivity extends AppCompatActivity {
 
                if (!TextUtils.isEmpty(posttext)){
 
-                   final String randomeName = FieldValue.serverTimestamp().toString();
+                   //generating random through uuid
+                   final String randomeName = UUID.randomUUID().toString();
 
                   StorageReference filepath = storageReference.child("post_image").child(randomeName+".jpg");
 
@@ -86,28 +96,75 @@ public class NewPostActivity extends AppCompatActivity {
 
                           if (task.isSuccessful()){
 
-                              String downloadURL = task.getResult().getDownloadUrl().toString();
+                              // original image URL from firebase server
+                               final String downloadURL = task.getResult().getDownloadUrl().toString();
 
+                              //parsing uri into file path
+                              File newImageFile = new File(postImageUri.getPath());
 
-                              Map<String, Object> postMap = new HashMap<>();
-                              postMap.put("user_id",user_ID);
-                              postMap.put("time_stamp",randomeName);
-                              postMap.put("post_text",posttext);
-                              postMap.put("image_uri", downloadURL);
+                              try {
 
-                              firebaseFirestore.collection("user_post").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                  //compressor code for thimbling image file
+                                  compressedImageFile = new Compressor(NewPostActivity.this)
+                                          .setMaxHeight(200)
+                                          .setMaxWidth(200)
+                                          .setQuality(5)
+                                          .compressToBitmap(newImageFile);
+
+                              } catch (IOException e) {
+                                  e.printStackTrace();
+                              }
+                              //firebase code to pass compressed file as we cannt use putFile method as it only suppor URL.
+                              ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                              compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+                              byte[] thumbImageData = baos.toByteArray();
+
+                              UploadTask Thumbpath = storageReference
+                                      .child("post_image/thumb")
+                                      .child(randomeName+".jpg")
+                                      .putBytes(thumbImageData);
+
+                              Thumbpath.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                   @Override
-                                  public void onComplete(@NonNull Task<DocumentReference> task) {
-                                      if (task.isSuccessful()){
+                                  public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                          Toast.makeText(NewPostActivity.this, "sucess",Toast.LENGTH_LONG).show();
-                                          Intent newI = new Intent(NewPostActivity.this, MainActivity.class);
-                                          startActivity(newI);
-                                          finish();
+                                      String downloadThumbUri = taskSnapshot.getDownloadUrl().toString();
+
+                                      Map<String, Object> postMap = new HashMap<>();
+                                      postMap.put("user_id",user_ID);
+                                      postMap.put("time_stamp",FieldValue.serverTimestamp()); //passing Server Time Stamp
+                                      postMap.put("post_text",posttext);
+                                      postMap.put("image_uri", downloadURL); //passing the original non compressed image
+                                      postMap.put("thumb_image", downloadThumbUri); //passing compressed thumb image url
+
+                                      firebaseFirestore.collection("user_post")
+                                              .add(postMap)
+                                              .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+
+                                          @Override
+                                          public void onComplete(@NonNull Task<DocumentReference> task) {
+                                              if (task.isSuccessful()){
+
+                                                  Toast.makeText(NewPostActivity.this, "sucess",Toast.LENGTH_LONG).show();
+                                                  Intent newI = new Intent(NewPostActivity.this, MainActivity.class);
+                                                  startActivity(newI);
+                                                  finish();
 
 
 
-                                      }
+                                              }
+                                          }
+                                      });
+
+
+                                  }
+                              }).addOnFailureListener(new OnFailureListener() {
+                                  @Override
+                                  public void onFailure(@NonNull Exception e) {
+
+
+
+
                                   }
                               });
 
