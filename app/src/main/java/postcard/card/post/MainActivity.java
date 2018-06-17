@@ -2,7 +2,10 @@ package postcard.card.post;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +21,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
 public class MainActivity extends AppCompatActivity {
     Toolbar mainToolBar;
     FloatingActionButton addPostBT;
@@ -26,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore firebaseFirestore;
     String current_user_id;
+
+    BottomNavigationView mainNavBottom;
+
+    HomeFragment homeFragment;
+    NotificationFragment notificationFragment;
+    AccountFragment accountFragment;
 
 
     @Override
@@ -36,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
         toolbar();
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+
+
+        //Fragments
+        homeFragment = new HomeFragment();
+        notificationFragment = new NotificationFragment();
+        accountFragment = new AccountFragment();
+
 
         ButtonMethod();
 
@@ -48,6 +63,28 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        mainNavBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()){
+                    case R.id.home_bottom:
+                        replaceFragment(homeFragment);
+                        return true;
+                    case R.id.notification_bottom:
+                        replaceFragment(notificationFragment);
+                        return true;
+                    case R.id.account_bottom:
+                        replaceFragment(accountFragment);
+                        return true;
+                        default:
+                            return false;
+                }
+
+            }
+        });
+
 
 
 
@@ -101,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void ButtonMethod() {
         addPostBT = findViewById(R.id.postFloatingBT);
+        mainNavBottom = findViewById(R.id.mainBootmNav);
     }
 
 
@@ -163,6 +201,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    public void replaceFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_container,fragment);
+        fragmentTransaction.commit();
+    }
+
+
+
+
 }
 
 

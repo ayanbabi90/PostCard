@@ -16,4 +16,10 @@
     <string name="deletProfile">Delete profile</string>
     <string name="nameSetup">name</string>
     <string name="post">post</string>
+    <string name="bottom_home">Home</string>
+    <string name="notification_bottom">Notification</string>
+    <string name="account_bottom">Account</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

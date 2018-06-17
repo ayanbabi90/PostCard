@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_bottom"
+        android:icon="@mipmap/baseline_home_black_48"
+        android:title="@string/bottom_home" />
+    <item
+        android:id="@+id/notification_bottom"
+        android:icon="@mipmap/baseline_notifications_black_48"
+        android:title="@string/notification_bottom" />
+    <item
+        android:id="@+id/account_bottom"
+        android:icon="@mipmap/baseline_account_circle_black_48"
+        android:title="@string/account_bottom" />
+
+
+</menu>

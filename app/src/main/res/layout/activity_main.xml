@@ -7,8 +7,10 @@
     tools:context=".MainActivity">
 
     <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <include
             android:id="@+id/mainToolbar"
             layout="@layout/toolbar_layout"
@@ -21,18 +23,40 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/postFloatingBT"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_marginBottom="68dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:clickable="true"
         app:backgroundTint="?android:attr/colorBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/mainBootmNav"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.923"
+        app:layout_constraintHorizontal_bias="0.975"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@mipmap/post_icon"
         tools:backgroundTint="?android:attr/textColorPrimaryInverseDisableOnly" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/mainBootmNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_menu" />
+
+
+    <FrameLayout
+        android:id="@+id/main_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/mainBootmNav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat">
+
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
