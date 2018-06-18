@@ -1,10 +1,14 @@
 package postcard.card.post;
 
 
+import java.util.Date;
+
 public class Wall_post {
 
 
     String user_id, post_text, image_uri, thumb_image;
+    Date time_stamp;
+
 
 
     //for our model class (constrictor)
@@ -13,11 +17,13 @@ public class Wall_post {
     }
 
     //constrictor
-    public Wall_post(String user_id, String post_text, String image_uri, String thumb_image) {
+    public Wall_post(String user_id, String post_text, String image_uri, String thumb_image, Date time_stamp) {
         this.user_id = user_id;
         this.post_text = post_text;
         this.image_uri = image_uri;
         this.thumb_image = thumb_image;
+        this.time_stamp = time_stamp;
+
     }
 
 
@@ -52,6 +58,18 @@ public class Wall_post {
     public void setThumb_image(String thumb_image) {
         this.thumb_image = thumb_image;
     }
+
+
+    public Date getTime_stamp() {
+        return time_stamp;
+    }
+
+    public void setTime_stamp(Date time_stamp) {
+        this.time_stamp = time_stamp;
+    }
+
+
+
 
 
 }
