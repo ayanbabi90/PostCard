@@ -1,15 +1,21 @@
 package postcard.card.post;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 public class Wall_post_RecyclerAdapter extends RecyclerView.Adapter<Wall_post_RecyclerAdapter.ViewHolder>{
+
+    Context context;
 
     //Member Variable so can used in bellow methods
     List<Wall_post> wallPosts_list;
@@ -27,21 +33,20 @@ public class Wall_post_RecyclerAdapter extends RecyclerView.Adapter<Wall_post_Re
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //to infiltrate the wallpost_list_items Layout view
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.wallpost_list_items,parent,false);
-
+        context = parent.getContext();
         return new ViewHolder(view);
     }
 
     //Reguired for our Adapter
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //receiving items
+        //receiving post text
         String post_data = wallPosts_list.get(position).getPost_text();
-
         //setting the received data from post_dat to setuserPostDescText
         holder.setuserPostDescText(post_data);
-
-
-
+        //reciving the post image url
+        String post_image_url = wallPosts_list.get(position).getImage_uri();
+        holder.setUserPostImage(post_image_url);
 
     }
     //Required for our Adapter
@@ -57,6 +62,7 @@ public class Wall_post_RecyclerAdapter extends RecyclerView.Adapter<Wall_post_Re
         View mView;
 
         TextView userPostDesc;
+        ImageView userPostImage;
 
         ///used to set view holder
         public ViewHolder(View itemView) {
@@ -71,6 +77,14 @@ public class Wall_post_RecyclerAdapter extends RecyclerView.Adapter<Wall_post_Re
 
 
         }
+
+        public void setUserPostImage(String downloadUrl){
+            userPostImage = mView.findViewById(R.id.postImage);
+            Glide.with(context).load(downloadUrl).into(userPostImage);
+
+        }
+
+
     }
 
 
