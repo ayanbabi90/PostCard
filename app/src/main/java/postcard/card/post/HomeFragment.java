@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -52,8 +53,10 @@ public class HomeFragment extends Fragment {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        Query postOrder = firebaseFirestore.collection("user_post").orderBy("time_stamp",Query.Direction.DESCENDING);
+
         //Snapshot listener help us to retrive the data in real time
-        firebaseFirestore.collection("user_post").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        postOrder.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
